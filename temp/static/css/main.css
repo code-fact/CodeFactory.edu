@@ -1,0 +1,85 @@
+hr {
+  border-top: 1vh solid #0ff;
+  opacity: 0.7;
+}
+.main {
+  padding-top: calc(1rem + 10vh);
+}
+#nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+@media (min-width: 992px) {
+  #nav {
+    background: transparent;
+  }
+  #nav .navbar-brand {
+    color: #fff;
+  }
+  #nav .navbar-nav > li.nav-item > a.nav-link {
+    color: #fff;
+  }
+  #nav .navbar-nav > li.nav-item > a.nav-link:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+@media (min-width: 992px) {
+  #nav.is-fixed {
+    position: fixed;
+    top: -90px;
+    transition: transform 1s;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  #nav.is-fixed .navbar-brand {
+    color: #000;
+  }
+  #nav.is-fixed .navbar-brand:hover {
+    color: #00ffff;
+  }
+  #nav.is-fixed .navbar-nav > li.nav-item > a {
+    color: #000;
+  }
+  #nav.is-fixed .navbar-nav > li.nav-item > a:hover {
+    color: #00ffff;
+  }
+  #nav.is-visible {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+.head {
+  position: relative;
+  margin-bottom: 10vh;
+  padding-top: calc(7rem + 10vh);
+  padding-bottom: 10rem;
+  background: no-repeat center;
+  background-size: cover;
+}
+.head:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.7;
+}
+.card a{
+  position: relative;
+  text-decoration: none;
+}
+form > button.float-end, .card {
+  margin-bottom: 1vh;
+  animation: hover 1s infinite  alternate;
+}
+.card:hover {
+  animation: hover 10s infinite alternate;
+  cursor: grabbing;
+}
+@-webkit-keyframes hover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1vh); }
+}

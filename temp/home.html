@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Header -->
+    <header class="head" style="background-image: url('static/assets/img/main.png')">
+        <div class="container position-relative">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold">CryptoSchool</h1>
+                <p class="fw-bold fst-italic">The CryptoSchool is your informational portal to the Crypto world.</p>
+            </div>
+        </div>
+    </header>
+    <!-- Search -->
+    <div class="container">
+        <form class="d-flex" method="post">
+            {% csrf_token %}
+            <input class="form-control text-info" name="query" placeholder="{{verbose}}">
+            <button class="btn btn-primary">Search</button>
+          </form>
+    </div>
+    <!-- Main -->
+    <div class="container">
+        <div class="row">
+            {% for post in Post %}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{post.icon.url}}">
+                        <div class="card-img-overlay">
+                            <a href="{% url 'category' post.category %}" class="btn btn-info btn-sm">{{post.category}}</a>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'article' post.pk %}">
+                                <p class="card-title fw-bold">{{post.title}}</p>
+                                <p class="card-subtitle text-muted">{{post.date|date:'D, j M Y'}}</p>
+                                <p class="card-text text-dark">{{post.description}}</p>
+                            </a>
+                        </div>
+                        <div class="card-footer text-end text-muted blockquote-footer border-top-0">
+                            <a href="{% url 'user' post.author.id %}">{{post.author}}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if not Post.has_previous %}
+                <li class="page-item"><a class="page-link bg-dark"><span class="text-light bi bi-slash-lg p-1 m-1"></span></a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link bg-dark" href="?page={{Post.previous_page_number}}"><span class="text-light bi bi-chevron-double-left p-1 m-1"></span></a></li>
+            {% endif %}
+            {% for i in Post.paginator.page_range %}
+                {% if Post.number == i %}
+                    <li class="page-item active"><span class="page-link">{{i}}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if not Post.has_next %}
+                <li class="page-item"><a class="page-link bg-dark"><span class="text-light bi bi-slash-lg p-1 m-1"></span></a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link bg-dark" href="?page={{Post.next_page_number}}"><span class="text-light bi bi-chevron-double-right p-1 m-1"></span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

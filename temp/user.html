@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load mark %}
+{% block title %}
+{{slug}}
+{% endblock %}
+{% block content %}
+    <div class="main container">
+        <strong>{{slug}}</strong>
+        <hr>
+        <!-- Search -->
+        <div class="container">
+            <form class="d-flex" method="post">
+                {% csrf_token %}
+                <input class="form-control text-info" name="query" placeholder="{{verbose}}">
+                <button class="btn btn-primary">Search</button>
+              </form>
+        </div>
+        {% if Post %}
+            <div class="row">
+                {% for post in Post %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{{post.icon.url}}">
+                            <div class="card-img-overlay">
+                                <a href="{% url 'category' post.category %}" class="btn btn-info btn-sm">{{post.category}}</a>
+                            </div>
+                            <div class="card-body">
+                                <a href="{% url 'article' post.pk %}">
+                                    <p class="card-title text-primary fw-bold">{{post.title}}</p>
+                                    <p class="card-subtitle text-muted">{{post.date|date:'D, j M Y'}}</p>
+                                    <p class="card-text text-dark">{{post.description}}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+        {% else %}
+            Ooops, no post to  show..!
+        {% endif %}
+    </div>
+{% endblock %}

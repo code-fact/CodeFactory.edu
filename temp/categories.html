@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="main">
+        <hr>
+        <div class="container">
+            <div class="row">
+                {% for Category in categorys %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <a href="{% url 'category' Category %}">
+                                    <p class="card-title text-dark lead fw-bold fst-italic">{{Category}}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+{{posts.title}}
+{% endblock %}
+{% block content %}
+    <div class="main container text-center">
+        {% if user.id == posts.author.id %}
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                <strong>Are you sure you want to purge {{ posts.title }}[post({{ posts.pk }})] <i>by</i> {{posts.author}}</strong><br>
+                <button class="btn btn-danger">Delete</button>
+                <a href="{% url 'article' posts.pk %}" class="btn btn-primary">Back</a>
+            </form>
+        {% else %}
+            Ooops, an error occured..!
+        {% endif %}
+    </div>
+{% endblock %}

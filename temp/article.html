@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load mark %}
+{% block title %}
+{{posts.title}}
+{% endblock %}
+{% block content %}
+<!-- Header-->
+<header class="head" style="background-image: url({{posts.icon.url}})">
+    <div class="container position-relative">
+        <div class="text-center">
+            <div class="post-heading">
+                <h1>{{posts.title}}</h1>
+                <p class="fw-light fst-italic">Posted by <a class="lead" href="{% url 'user' posts.author.id %}">{{posts.author}}</a> on {{posts.date|date:'D, j M Y'}}</p>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="container-fluid border rounded mb-1 pb-1">
+                {{posts.content|md|safe}}
+            </div>
+            {% if user.is_authenticated %}
+                {% if user.id == posts.author.id %}
+                    <div class="text-center border-start border-end">
+                        <a href="{% url 'edit' posts.pk %}" class="btn btn-info">Update</a>
+                        <a href="{% url 'purge' posts.pk %}" class="btn btn-danger">Delete</a>
+                    </div>
+                {% else %}
+                    <form action="{% url 'like' posts.pk %}" class="text-center" method="post">
+                        {% csrf_token %}
+                        {% if liked %}
+                            <button type="submit" value="{{posts.pk}}" name="like" class="float-end btn btn-secondary text-danger">UnLike</button>
+                        {% else %}
+                            <button type="submit" value="{{posts.pk}}" name="like" class="float-end btn btn-light text-info">Like</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            {% endif %}
+            <!-- Comment -->
+            <section class="mark rounded border border-1 border-info text-center" style="margin-top: 10vh; padding-top: 0;">
+                <p class="text-warning lead fw-bold fst-italic">Comment</p>
+                <form class="text-dark" method="post">
+                    {% csrf_token %}
+                    <table class="text-dark">{{msg.as_table}}</table>
+                    <button class="btn btn-primary float-end">Send</button>
+                </form>
+            </section>
+        </div>
+        <!-- Widgets-->
+        <div class="col-md-4">
+            <!-- Categories -->
+            <div class="card text-dark">
+                <div class="card-header">Category</div>
+                <div class="card-body text-center">
+                    <a href="{% url 'category' posts.category %}">{{posts.category}}</a>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="card text-dark">
+                <div class="card-header">Description</div>
+                <div class="card-body text-info">{{posts.description}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

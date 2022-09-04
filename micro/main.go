@@ -8,15 +8,15 @@ import (
 var port = ":8000"
 
 func home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "10th will we tough")
+	fmt.Fprint(w, "applphabet")
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
-	case "/famg":
+	case "/z":
 		home(w, r)
 	default:
-		fmt.Fprint(w, "11th will be practise for 12th")
+		fmt.Fprint(w, "APPleaLPHABET")
 	}
 }
 
